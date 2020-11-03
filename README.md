@@ -1,4 +1,4 @@
-# italy-covid-tracker
+<h1 align="center">🦠 Italy COVID-19 tracker</h1>
 
 ## Project setup
 ```
