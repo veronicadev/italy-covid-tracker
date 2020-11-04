@@ -4,6 +4,7 @@ $body-bg: #32325d;;
 $body-color: #f8f9fe;
 $body-secondary-color: #8898aa;
 $warning-color: #8898aa;
+$border-radius: .375rem;
 
 body{
     color: $body-bg;
@@ -42,4 +43,19 @@ body{
 
 .font-weight-bold {
     font-weight: 500 !important;
+}
+
+
+.card {
+    border-radius: $border-radius;
+    box-shadow: 0 2px 3px 0 #e9edf1;
+    border: none;
+}
+
+.card-header{
+    background-color: #fff;
+}
+
+.card-body {
+    padding: 1rem 1.5rem;
 }
