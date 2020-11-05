@@ -1,15 +1,15 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
-$body-bg: #32325d;;
-$body-color: #f8f9fe;
+$body-color: #32325d;;
+$body-bg: #f8f9fe;
 $body-secondary-color: #8898aa;
-$warning-color: #8898aa;
 $border-radius: .375rem;
+$table-row: #f6f9fc;
 
 body{
-    color: $body-bg;
+    color: $body-color;
     text-align: left;
-    background-color: $body-color;
+    background-color: $body-bg;
     font-family: 'Ubuntu', sans-serif;
 }
 
@@ -58,4 +58,46 @@ body{
 
 .card-body {
     padding: 1rem 1.5rem;
+}
+
+.form-control{
+    border-radius: 0.3rem;
+    outline: none !important;
+    font-weight: 300;
+    &.b-calendar-grid {
+        border:none;
+    }
+    &.focus{
+        box-shadow: none !important;
+    }
+}
+
+.b-calendar-grid-help{
+    display: none !important;
+}
+
+.form-control:focus{
+    box-shadow: none;
+}
+.form-control .b-icon.bi{
+    fill: $body-secondary-color;
+}
+
+table thead th {
+    background-color: $table-row;
+    color: $body-secondary-color;
+    font-size: .65rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+}
+
+
+table thead th, table tbody td{
+    padding-top: .75rem !important;
+    padding-bottom: .75rem !important;
+}
+
+table tbody td{
+    font-size: .8125rem;
 }

@@ -29,21 +29,44 @@
                 <CardNumber :totalValue="1243" :icon="'lung'" :title="'card.deceased'" />
             </div>
         </div>
-        <div class="row mt-2 mb-3">
-            <div class="col-lg-12">
-                <div class="card padding-0">
+        <div class="row mt-3">
+            <div class="col-lg-6">
+                <div class="card">
                     <div class="card-body">
-
                         <div class="row">
-                            <div class="col-lg-6">
-                                <interactive-map></interactive-map>
+                            <div class="col-lg-5 mb-3">
+                                <b-form-input v-model="selected" placeholder="Province/City"></b-form-input>
                             </div>
-                            <div class="col-lg-6">
-
+                            <div class="col-lg-5 mb-3">
+                                <b-form-datepicker :date-format-options="calendarOption" :locale="$i18n.locale" :value-as-date="true" :hide-header="true" id="datepicker" v-model="date"></b-form-datepicker>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-lg-12 mt-2">
+                                <b-table-simple responsive>
+                                    <b-thead>
+                                        <b-tr>
+                                            <b-th v-for="f in fields" :key="f.key">{{f.key}}</b-th>
+                                        </b-tr>
+                                    </b-thead>
+                                    <b-tbody>
+                                        <b-tr v-for="item in items" :key="item.province">
+                                            <b-td class="font-weight-bold font-sm">{{item.province}}</b-td>
+                                            <b-td class="font-weight-light">{{item.total | formatNumber}}</b-td>
+                                            <b-td class="font-weight-light">{{item.hospitalized | formatNumber}}</b-td>
+                                            <b-td class="font-weight-light">{{item.recovered | formatNumber}}</b-td>
+                                            <b-td class="font-weight-light">{{item.deceased | formatNumber}}</b-td>
+                                        </b-tr>
+                                    </b-tbody>
+                                </b-table-simple>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
+            </div>
+            <div class="col-lg-6">
+                <interactive-map></interactive-map>
             </div>
         </div>
     </div>
@@ -58,6 +81,125 @@ import InteractiveMap from '@/components/InteractiveMap.vue'
 
 export default {
     name: 'Home',
+    data: function () {
+        return {
+            selected: "Turin",
+            date: new Date(),
+            calendarOption: {
+                'year': 'numeric',
+                'month': 'numeric',
+                'day': 'numeric'
+            },
+            sortBy: 'province',
+            sortDesc: false,
+            fields: [{
+                    key: 'province',
+                    sortable: false
+                },
+                {
+                    key: 'total',
+                    sortable: true
+                },
+                {
+                    key: 'hospitalized',
+                    sortable: true
+                },
+                {
+                    key: 'recovered',
+                    sortable: true
+                },
+                {
+                    key: 'deceased',
+                    sortable: true
+                }
+            ],
+
+            items: [{
+                    province: "Milan",
+                    total: 15359,
+                    hospitalized: 2879,
+                    recovered: 150,
+                    deceased: 450
+                },
+                {
+                    province: "Turin",
+                    total: 4587,
+                    hospitalized: 632,
+                    recovered: 236,
+                    deceased: 100
+                },
+                {
+                    province: "Rome",
+                    total: 26301,
+                    hospitalized: 7941,
+                    recovered: 6251,
+                    deceased: 30
+                },
+                {
+                    province: "Venice",
+                    total: 4587,
+                    hospitalized: 632,
+                    recovered: 236,
+                    deceased: 100
+                },
+                {
+                    province: "Florence",
+                    total: 4587,
+                    hospitalized: 632,
+                    recovered: 236,
+                    deceased: 100
+                },
+                {
+                    province: "Bologna",
+                    total: 4587,
+                    hospitalized: 632,
+                    recovered: 236,
+                    deceased: 100
+                },
+                {
+                    province: "Asti",
+                    total: 4587,
+                    hospitalized: 632,
+                    recovered: 236,
+                    deceased: 100
+                },
+                {
+                    province: "Parma",
+                    total: 4587,
+                    hospitalized: 632,
+                    recovered: 236,
+                    deceased: 100
+                },
+                {
+                    province: "Palermo",
+                    total: 4587,
+                    hospitalized: 632,
+                    recovered: 236,
+                    deceased: 100
+                },
+                {
+                    province: "Catania",
+                    total: 4587,
+                    hospitalized: 632,
+                    recovered: 236,
+                    deceased: 100
+                },
+                {
+                    province: "Naple",
+                    total: 4587,
+                    hospitalized: 632,
+                    recovered: 236,
+                    deceased: 100
+                }
+            ]
+        }
+    },
+    filters: {
+        formatNumber: function (value) {
+            if (!value) return ''
+            return value.toLocaleString();
+        }
+    },
     components: {
         CardNumber,
         Autocomplete,
