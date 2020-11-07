@@ -1,6 +1,6 @@
 <template>
 <div>
-    <b-form-radio-group id="btn-radios-3" v-model="selected" :options="options" buttons stacked name="radio-btn-stacked"></b-form-radio-group>
+    <b-form-radio-group id="btn-radios-3" plain v-model="selected" :options="options" buttons name="radio-btn-stacked"></b-form-radio-group>
 </div>
 </template>
 
@@ -11,20 +11,15 @@ export default {
         return {
             selected: 'radio1',
             options: [{
-                    text: 'Radio 1',
+                    text: 'Total',
                     value: 'radio1'
                 },
                 {
-                    text: 'Radio 3',
+                    text: 'Recovered',
                     value: 'radio2'
                 },
                 {
-                    text: 'Radio 3 (disabled)',
-                    value: 'radio3',
-                    disabled: true
-                },
-                {
-                    text: 'Radio 4',
+                    text: 'Deceased',
                     value: 'radio4'
                 }
             ]
@@ -36,5 +31,38 @@ export default {
 </script>
 
 <style scoped>
+.btn-group-toggle {
+    border-radius: 0.375rem;
+    padding: 6px 0px;
+    border: 1px solid #ced4da;
+    position: relative;
+}
 
+/deep/ .btn-group-toggle .btn {
+    position: relative;
+    flex: 1 1 auto;
+    background-color: transparent;
+    border: none;
+    color: #8898aa;
+    padding: 5px 6px;
+    border-radius: 0.375rem !important;
+    font-weight: 300;
+    min-width: 82px;
+    margin: 0 12px;
+    line-height: 26px;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/deep/ .btn-secondary:not(:disabled):not(.disabled):active,
+/deep/ .btn-secondary:not(:disabled):not(.disabled).active,
+/deep/ .show>.btn-secondary.dropdown-toggle {
+    color: #fff;
+    background-color: #32325d;
+    border-color: #32325d;
+    box-shadow: none;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .2);
+    font-weight: 500;
+}
 </style>
