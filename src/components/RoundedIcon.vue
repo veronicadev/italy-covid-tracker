@@ -34,6 +34,5 @@ img {
     border-radius: 25px;
     background-color: #fff;
     box-shadow: 0 10px 28px rgba(0, 0, 0, .15);
-
 }
 </style>

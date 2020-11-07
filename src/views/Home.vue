@@ -29,7 +29,7 @@
                 <CardNumber :totalValue="1243" :icon="'lung'" :title="'card.deceased'" />
             </div>
         </div>
-        <div class="row mt-3">
+        <div class="row mt-2">
             <div class="col-lg-6">
                 <div class="card">
                     <div class="card-body">
@@ -66,8 +66,23 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <interactive-map></interactive-map>
+                <!--interactive-map></!--interactive-map-->
+                <map-switch></map-switch>
             </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <recovery-chart></recovery-chart>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -77,7 +92,9 @@
 // @ is an alias to /src
 import CardNumber from '@/components/CardNumber.vue'
 import Autocomplete from '@/components/Autocomplete.vue'
-import InteractiveMap from '@/components/InteractiveMap.vue'
+//import InteractiveMap from '@/components/InteractiveMap.vue'
+import RecoveryChart from '@/components/RecoveryChart.vue'
+import MapSwitch from '@/components/MapSwitch.vue'
 
 export default {
     name: 'Home',
@@ -170,27 +187,6 @@ export default {
                     recovered: 236,
                     deceased: 100
                 },
-                {
-                    province: "Palermo",
-                    total: 4587,
-                    hospitalized: 632,
-                    recovered: 236,
-                    deceased: 100
-                },
-                {
-                    province: "Catania",
-                    total: 4587,
-                    hospitalized: 632,
-                    recovered: 236,
-                    deceased: 100
-                },
-                {
-                    province: "Naple",
-                    total: 4587,
-                    hospitalized: 632,
-                    recovered: 236,
-                    deceased: 100
-                }
             ]
         }
     },
@@ -203,7 +199,9 @@ export default {
     components: {
         CardNumber,
         Autocomplete,
-        InteractiveMap
+        // InteractiveMap,
+        RecoveryChart,
+        MapSwitch
     }
 }
 </script>

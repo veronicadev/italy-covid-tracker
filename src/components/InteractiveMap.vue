@@ -1,7 +1,6 @@
 <template>
 <div id="map" class="map">
 </div>
-<div class='map-overlay' id='legend'></div>
 </template>
 
 <script>
@@ -16,11 +15,10 @@ export default {
     },
     mounted() {
         let hoveredStateId = 0;
-        let legend = document.getElementById("legend");
         mapboxgl.accessToken = this.accessToken;
         let map = new mapboxgl.Map({
             container: "map",
-            style: "mapbox://styles/veronicavia/ckh4lugx70p5h19lmucinw700",
+            style: "mapbox://styles/veronicavia/ckh7xc1gz0uux19od7j5b3x9c",
             center: [12.230556, 42.000001],
             zoom: this.mapDefaultZoom,
             attributionControl: false
@@ -29,9 +27,6 @@ export default {
         map.scrollZoom.disable();
 
         map.on('load', function () {
-            var layers = ['0-10', '10-20', '20-50', '50-100', '100-200', '200-500', '500-1000', '1000+'];
-            var colors = ['#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026'];
-
             map.addSource('states', {
                 'type': 'geojson',
                 'data': require("../assets/geomap/italy-regions.json")
@@ -45,12 +40,12 @@ export default {
                 'source': 'states',
                 'layout': {},
                 'paint': {
-                    'fill-color': '#a7d1e5',
+                    'fill-color': '#fff',
                     'fill-opacity': [
                         'case',
                         ['boolean', ['feature-state', 'hover'], false],
-                        1,
-                        0.7
+                        0.6,
+                        0
                     ]
                 }
             });
@@ -65,21 +60,11 @@ export default {
                     'line-width': 1.5
                 }
             });
+        });
 
-            /* for (let i = 0; i < layers.length; i++) {
-                 var layer = layers[i];
-                 var color = colors[i];
-                 var item = document.createElement('div');
-                 var key = document.createElement('span');
-                 key.className = 'legend-key';
-                 key.style.backgroundColor = color;
-
-                 var value = document.createElement('span');
-                 value.innerHTML = layer;
-                 item.appendChild(key);
-                 item.appendChild(value);
-                 legend.appendChild(item);
-             }*/
+        var popup = new mapboxgl.Popup({
+            closeButton: false,
+            closeOnClick: false
         });
 
         map.on('mousemove', 'state-fills', function (e) {
@@ -92,6 +77,11 @@ export default {
                     }, {
                         hover: false
                     });
+                    const prop = e.features[0].properties;
+                    const popupHTML = `<strong>${prop.name}</strong>
+                                        <br/>
+                                        ${prop.totale_positivi.toLocaleString()}`
+                    popup.setLngLat(e.lngLat).setHTML(popupHTML).addTo(map);
                 }
                 hoveredStateId = e.features[0].id;
                 map.setFeatureState({
@@ -116,6 +106,7 @@ export default {
                 });
             }
             hoveredStateId = null;
+            popup.remove();
         });
 
     }

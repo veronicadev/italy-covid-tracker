@@ -101,3 +101,9 @@ table thead th, table tbody td{
 table tbody td{
     font-size: .8125rem;
 }
+
+.mapboxgl-control-container {
+    display: none !important;
+    visibility: hidden;
+}
+
