@@ -6,7 +6,7 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import './assets/scss/custom.scss'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-import {i18nTranslation} from './common/i18n';
+import {i18nTranslation} from './common/i18n'
 
 Vue.config.productionTip = false
 

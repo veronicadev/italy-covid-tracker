@@ -1,6 +1,6 @@
 <template>
 <div>
-    <b-form-radio-group id="btn-radios-3" plain v-model="selected" :options="options" buttons name="radio-btn-stacked"></b-form-radio-group>
+    <b-form-radio-group id="btn-radios-3" plain v-model="selected" @change="onSwitchChange()" :options="options" buttons name="radio-btn-stacked"></b-form-radio-group>
 </div>
 </template>
 
@@ -9,23 +9,29 @@ export default {
     name: 'MapSwitch',
     data: function () {
         return {
-            selected: 'radio1',
+            selected: 'totale_positivi',
             options: [{
                     text: 'Total',
-                    value: 'radio1'
+                    value: 'totale_positivi'
                 },
                 {
                     text: 'Recovered',
-                    value: 'radio2'
+                    value: 'dimessi_guariti'
                 },
                 {
                     text: 'Deceased',
-                    value: 'radio4'
+                    value: 'deceduti'
                 }
             ]
         };
     },
-    mounted() {}
+    mounted() {},
+    methods: {
+        onSwitchChange() {
+            console.log("EMITTING switchChange", this.selected);
+            this.$emit("switchChange", this.selected);
+        }
+    },
 
 }
 </script>

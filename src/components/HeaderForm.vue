@@ -1,0 +1,102 @@
+<template>
+<div class="autocomplete-search">
+    <autocomplete-dropdown :options="options" :height="55" @select-item="onOptionSelect">
+
+        <template slot="item" slot-scope="option">
+            <span>
+                <img class="region-icon" :src="imgPath(option)">
+            </span>
+        </template>
+
+    </autocomplete-dropdown>
+
+    <b-icon @click="onCalendarClick()" class="h1 calendar-icon" icon="calendar-week"></b-icon>
+    <b-calendar class="calendar" v-model="value" :hidden="!showCalendar"></b-calendar>
+
+</div>
+</template>
+
+<script>
+import AutocompleteDropdown from '@/components/AutocompleteDropdown.vue'
+export default {
+    name: 'HeaderForm',
+    props: {
+        text: String
+    },
+    data() {
+        return {
+            showCalendar: false,
+            value: '',
+            query: '',
+            options: [{
+                    id: 1,
+                    name: "Piemonte",
+                },
+                {
+                    id: 2,
+                    name: "Lombardia",
+                },
+                {
+                    id: 13,
+                    name: "Abruzzo",
+                }
+            ]
+        };
+    },
+    methods: {
+        onCalendarClick: function () {
+            this.showCalendar = !this.showCalendar;
+        },
+        onOptionSelect(option) {
+            console.log(option);
+        },
+
+        imgPath: function (option) {
+            if (option) {
+                console.log(option)
+                return require(`../assets/img/regione/${option.id}.png`);
+            }
+        }
+    },
+    components: {
+        AutocompleteDropdown
+    }
+}
+</script>
+
+<style scoped>
+.autocomplete-search {
+    position: relative;
+}
+
+.autocomplete-search {
+    box-shadow: 0 10px 35px rgba(0, 0, 0, .1);
+    border-radius: 0.375rem;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+}
+
+.calendar-icon {
+    padding: 3px 15px;
+    box-sizing: content-box;
+    border-left: 1px solid #8898aa;
+    margin-bottom: 0px;
+    fill: #32325d;
+    cursor: pointer;
+}
+
+.calendar {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    z-index: 1;
+    box-shadow: 0 2px 3px 0 #e9edf1;
+}
+
+.region-icon {
+    height: 25px;
+    margin-left: 5px;
+    margin-right: 10px;
+}
+</style>

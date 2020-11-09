@@ -7,16 +7,21 @@
 import mapboxgl from "mapbox-gl";
 export default {
     name: 'InteractiveMap',
+    props: {
+        nameLayerShown: String
+    },
     data() {
         return {
             accessToken: "ACCESS_KEY",
-            mapDefaultZoom: 4.45
+            mapDefaultZoom: 4.45,
+            map: null
         };
     },
     mounted() {
         let hoveredStateId = 0;
+        let that = this;
         mapboxgl.accessToken = this.accessToken;
-        let map = new mapboxgl.Map({
+        this.map = new mapboxgl.Map({
             container: "map",
             style: "mapbox://styles/veronicavia/ckh7xc1gz0uux19od7j5b3x9c",
             center: [12.230556, 42.000001],
@@ -24,17 +29,17 @@ export default {
             attributionControl: false
         });
 
-        map.scrollZoom.disable();
+        this.map.scrollZoom.disable();
 
-        map.on('load', function () {
-            map.addSource('states', {
+        this.map.on('load', function () {
+            that.map.addSource('states', {
                 'type': 'geojson',
                 'data': require("../assets/geomap/italy-regions.json")
             });
 
             // The feature-state dependent fill-color expression will render the click effect
             // when a feature's click state is set to true.
-            map.addLayer({
+            that.map.addLayer({
                 'id': 'state-fills',
                 'type': 'fill',
                 'source': 'states',
@@ -50,7 +55,7 @@ export default {
                 }
             });
 
-            map.addLayer({
+            that.map.addLayer({
                 'id': 'state-borders',
                 'type': 'line',
                 'source': 'states',
@@ -67,11 +72,11 @@ export default {
             closeOnClick: false
         });
 
-        map.on('mousemove', 'state-fills', function (e) {
-            map.getCanvas().style.cursor = 'pointer';
+        this.map.on('mousemove', 'state-fills', function (e) {
+            that.map.getCanvas().style.cursor = 'pointer';
             if (e.features.length > 0) {
                 if (hoveredStateId) {
-                    map.setFeatureState({
+                    that.map.setFeatureState({
                         source: 'states',
                         id: hoveredStateId
                     }, {
@@ -81,10 +86,10 @@ export default {
                     const popupHTML = `<strong>${prop.name}</strong>
                                         <br/>
                                         ${prop.totale_positivi.toLocaleString()}`
-                    popup.setLngLat(e.lngLat).setHTML(popupHTML).addTo(map);
+                    popup.setLngLat(e.lngLat).setHTML(popupHTML).addTo(that.map);
                 }
                 hoveredStateId = e.features[0].id;
-                map.setFeatureState({
+                that.map.setFeatureState({
                     source: 'states',
                     id: hoveredStateId
                 }, {
@@ -95,10 +100,10 @@ export default {
 
         // When the mouse leaves the state-fill layer, update the feature state of the
         // previously hovered feature.
-        map.on('mouseleave', 'state-fills', function () {
-            map.getCanvas().style.cursor = 'default';
+        this.map.on('mouseleave', 'state-fills', function () {
+            that.map.getCanvas().style.cursor = 'default';
             if (hoveredStateId) {
-                map.setFeatureState({
+                that.map.setFeatureState({
                     source: 'states',
                     id: hoveredStateId
                 }, {
@@ -109,7 +114,13 @@ export default {
             popup.remove();
         });
 
+    },
+    watch: {
+        nameLayerShown: function (newLayer, oldLayer) { // watch it
+            console.log(newLayer, oldLayer)
+        }
     }
+
 }
 </script>
 

@@ -11,7 +11,7 @@
                         </h1>
                     </div>
                     <div class="col-lg-5">
-                        <Autocomplete />
+                        <header-form />
                     </div>
                 </div>
 
@@ -66,8 +66,8 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <!--interactive-map></!--interactive-map-->
-                <map-switch></map-switch>
+                <interactive-map :nameLayerShown="mapSelect"></interactive-map>
+                <map-switch @switchChange="onMapSwitchChanged($event)"></map-switch>
             </div>
         </div>
         <div class="row mt-4">
@@ -91,8 +91,8 @@
 <script>
 // @ is an alias to /src
 import CardNumber from '@/components/CardNumber.vue'
-import Autocomplete from '@/components/Autocomplete.vue'
-//import InteractiveMap from '@/components/InteractiveMap.vue'
+import HeaderForm from '@/components/HeaderForm.vue'
+import InteractiveMap from '@/components/InteractiveMap.vue'
 import RecoveryChart from '@/components/RecoveryChart.vue'
 import MapSwitch from '@/components/MapSwitch.vue'
 
@@ -101,6 +101,7 @@ export default {
     data: function () {
         return {
             selected: "Turin",
+            mapSelect: 'totale_positivi',
             date: new Date(),
             calendarOption: {
                 'year': 'numeric',
@@ -196,10 +197,15 @@ export default {
             return value.toLocaleString();
         }
     },
+    methods: {
+        onMapSwitchChanged(element) {
+            this.mapSelect = element;
+        }
+    },
     components: {
         CardNumber,
-        Autocomplete,
-        // InteractiveMap,
+        HeaderForm,
+        InteractiveMap,
         RecoveryChart,
         MapSwitch
     }
