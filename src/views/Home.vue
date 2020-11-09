@@ -66,8 +66,7 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <interactive-map :nameLayerShown="mapSelect"></interactive-map>
-                <map-switch @switchChange="onMapSwitchChanged($event)"></map-switch>
+                <interactive-map></interactive-map>
             </div>
         </div>
         <div class="row mt-4">
@@ -94,14 +93,12 @@ import CardNumber from '@/components/CardNumber.vue'
 import HeaderForm from '@/components/HeaderForm.vue'
 import InteractiveMap from '@/components/InteractiveMap.vue'
 import RecoveryChart from '@/components/RecoveryChart.vue'
-import MapSwitch from '@/components/MapSwitch.vue'
 
 export default {
     name: 'Home',
     data: function () {
         return {
             selected: "Turin",
-            mapSelect: 'totale_positivi',
             date: new Date(),
             calendarOption: {
                 'year': 'numeric',
@@ -198,16 +195,13 @@ export default {
         }
     },
     methods: {
-        onMapSwitchChanged(element) {
-            this.mapSelect = element;
-        }
+
     },
     components: {
         CardNumber,
         HeaderForm,
         InteractiveMap,
-        RecoveryChart,
-        MapSwitch
+        RecoveryChart
     }
 }
 </script>

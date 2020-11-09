@@ -1,6 +1,6 @@
 <template>
 <div>
-    <b-form-radio-group id="btn-radios-3" plain v-model="selected" @change="onSwitchChange()" :options="options" buttons name="radio-btn-stacked"></b-form-radio-group>
+    <b-form-radio-group id="btn-radios-3" plain v-model="selected" @change="onSwitchChange" :options="options" buttons name="radio-btn-stacked"></b-form-radio-group>
 </div>
 </template>
 
@@ -27,9 +27,9 @@ export default {
     },
     mounted() {},
     methods: {
-        onSwitchChange() {
-            console.log("EMITTING switchChange", this.selected);
-            this.$emit("switchChange", this.selected);
+        onSwitchChange(checked) {
+            console.log("EMITTING switchChange", checked);
+            this.$emit("switchChange", checked);
         }
     },
 
@@ -54,7 +54,7 @@ export default {
     border-radius: 0.375rem !important;
     font-weight: 300;
     min-width: 82px;
-    margin: 0 12px;
+    margin: 0 8px;
     line-height: 26px;
     font-size: 0.65rem;
     text-transform: uppercase;
