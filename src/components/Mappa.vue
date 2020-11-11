@@ -13,7 +13,7 @@ export default {
     data() {
         return {
             accessToken: "ACCESS_TOKEN",
-            mapDefaultZoom: 4.45,
+            mapDefaultZoom: 4.35,
             map: null
         };
     },
@@ -24,7 +24,7 @@ export default {
         this.map = new mapboxgl.Map({
             container: "map",
             style: "mapbox://styles/veronicavia/ckh7xc1gz0uux19od7j5b3x9c",
-            center: [14.599557, 42.563271],
+            center: [13.156892, 41.370085],
             zoom: this.mapDefaultZoom,
             attributionControl: false,
             dragPan: false
