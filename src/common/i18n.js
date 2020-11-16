@@ -6,6 +6,13 @@ export const i18nTranslation =  {
             'hospitalized': 'Hospitalized',
             'recovered': 'Recovered',
             'deceased': 'Deceased'
+        },
+        'chart':{
+            'timespan':{
+                'lastWeek': 'Last week',
+                'lastMonth': 'Last month',
+                'lastYear': 'Last year',
+            }
         }
     },
     'it':{

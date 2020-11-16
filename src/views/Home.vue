@@ -71,11 +71,22 @@
         </div>
         <div class="row mt-4">
             <div class="col-lg-4">
-                <div class="card">
+                <div class="card mb-4">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <recovery-chart></recovery-chart>
+                                <region-donut></region-donut>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <spread-trends></spread-trends>
                             </div>
                         </div>
                     </div>
@@ -92,7 +103,8 @@
 import CardNumber from '@/components/CardNumber.vue'
 import HeaderForm from '@/components/HeaderForm.vue'
 import InteractiveMap from '@/components/InteractiveMap.vue'
-import RecoveryChart from '@/components/RecoveryChart.vue'
+import RegionDonut from '@/components/RegionDonut.vue'
+import SpreadTrends from '@/components/SpreadTrends.vue'
 
 export default {
     name: 'Home',
@@ -201,7 +213,8 @@ export default {
         CardNumber,
         HeaderForm,
         InteractiveMap,
-        RecoveryChart
+        RegionDonut,
+        SpreadTrends
     }
 }
 </script>
