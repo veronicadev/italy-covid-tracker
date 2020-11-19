@@ -13,6 +13,14 @@ export const i18nTranslation =  {
                 'lastMonth': 'Last month',
                 'lastYear': 'Last year',
             }
+        },
+        "table":{
+            "column":{
+                "denominazione_provincia": "Provincia",
+                "sigla_provincia": "Sigla",
+                "denominazione_regione": "Regione",
+                "totale_casi": "Totale casi"
+            }
         }
     },
     'it':{

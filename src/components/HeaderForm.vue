@@ -17,7 +17,8 @@
 </template>
 
 <script>
-import AutocompleteDropdown from '@/components/AutocompleteDropdown.vue'
+import AutocompleteDropdown from '@/components/AutocompleteDropdown.vue';
+import { Regions } from '../common/common.js';
 export default {
     name: 'HeaderForm',
     props: {
@@ -28,19 +29,7 @@ export default {
             showCalendar: false,
             value: '',
             query: '',
-            options: [{
-                    id: 1,
-                    name: "Piemonte",
-                },
-                {
-                    id: 2,
-                    name: "Lombardia",
-                },
-                {
-                    id: 13,
-                    name: "Abruzzo",
-                }
-            ]
+            options: [...Regions]
         };
     },
     methods: {
@@ -48,12 +37,12 @@ export default {
             this.showCalendar = !this.showCalendar;
         },
         onOptionSelect(option) {
+            this.$emit("select-item", option);
             console.log(option);
         },
 
         imgPath: function (option) {
             if (option) {
-                console.log(option)
                 return require(`../assets/img/regione/${option.id}.png`);
             }
         }
