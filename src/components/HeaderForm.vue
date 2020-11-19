@@ -11,7 +11,7 @@
     </autocomplete-dropdown>
 
     <b-icon @click="onCalendarClick()" class="h1 calendar-icon" icon="calendar-week"></b-icon>
-    <b-calendar class="calendar" v-model="value" :hidden="!showCalendar"></b-calendar>
+    <b-calendar class="calendar" :min="minDate" :max="maxDate" v-model="value" :hidden="!showCalendar"></b-calendar>
 
 </div>
 </template>
@@ -19,6 +19,7 @@
 <script>
 import AutocompleteDropdown from '@/components/AutocompleteDropdown.vue';
 import { Regions } from '../common/common.js';
+import moment from 'moment';
 export default {
     name: 'HeaderForm',
     props: {
@@ -29,7 +30,9 @@ export default {
             showCalendar: false,
             value: '',
             query: '',
-            options: [...Regions]
+            options: [...Regions],
+            //minDate: new Date(),
+            maxDate: new Date()
         };
     },
     methods: {
@@ -45,7 +48,15 @@ export default {
             if (option) {
                 return require(`../assets/img/regione/${option.id}.png`);
             }
+        },
+        setMinMaxDate(){
+            const today = new Date();
+            this.maxDate = moment(today).add(1, "days").toDate();
+            this.minDate = moment("2020-02-24").toDate();
         }
+    },
+    mounted() {
+        this.setMinMaxDate();
     },
     components: {
         AutocompleteDropdown
