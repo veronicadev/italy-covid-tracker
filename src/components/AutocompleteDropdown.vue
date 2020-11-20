@@ -11,8 +11,11 @@
             </li>
         </ul>
     </transition>
-    <div class="icon">
+    <div class="icon icon-search">
         <b-icon icon="search" variant="#8898aa"></b-icon>
+    </div>
+        <div class="icon icon-exit" @click="clearField" v-if="selectedObj && selectedObj.id">
+        <b-icon icon="x" variant="#8898aa" ></b-icon>
     </div>
 </div>
 </template>
@@ -31,6 +34,7 @@ export default {
         return {
             isOpened: false,
             selected: null,
+            selectedObj: {},
             search: ""
         };
     },
@@ -40,9 +44,9 @@ export default {
             this.selected = null;
         },
         select() {
-            const selectedOption = this.filteredItems[this.selected];
-            this.$emit("select-item", selectedOption);
-            this.search = selectedOption.name;
+            this.selectedObj = this.filteredItems[this.selected];
+            this.$emit("select-item", this.selectedObj);
+            this.search = this.selectedObj.name;
             this.isOpened = false;
         },
         onDown() {
@@ -66,6 +70,12 @@ export default {
             if (this.isOpened) {
                 //this.$refs.dropdown.focus();
             }
+        },
+        clearField(){
+            this.search = "";
+            this.selectedObj = {};
+            this.selected = null;
+            this.$emit("select-item", this.selectedObj);
         },
         setInputHeight() {
             if (!this.height) {
@@ -176,18 +186,33 @@ ul.options-list li:last-child {
     transform: translateY(-30px);
 }
 
-.icon {
+.icon{
     position: absolute;
-    top: 16px;
-    left: 16px;
-
     z-index: 11;
 
 }
 
-.icon svg {
+.icon-search {
+    left: 16px;
+    top: 16px;
+}
+
+.icon-search svg{
     width: 1.25rem;
     height: 1.25rem;
+}
+
+.icon svg {
     fill: #8898aa;
+}
+
+.icon-exit{
+    right: 16px;
+    top:12px;
+    cursor: pointer;
+}
+.icon-exit svg{
+    width: 1.85rem;
+    height: 1.85rem;
 }
 </style>

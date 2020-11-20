@@ -42,7 +42,10 @@
               </div>
               <div class="row">
                 <div class="col-lg-12 mt-2">
-                  <b-table-simple responsive class="provinceTable">
+                <div v-if="listaProvince.length==0">
+                  <b-skeleton v-for="(e, i) in 10" height="38px" :key="i"></b-skeleton>
+                </div>
+                  <b-table-simple responsive class="provinceTable" v-if="listaProvince.length>0">
                     <b-thead>
                       <b-tr>
                         <b-th v-for="f in fields" :key="f.key">{{ $t(`table.column.${f.key}`) }}</b-th>
@@ -108,8 +111,8 @@ export default {
   data: function () {
     return {
       provinceSelected: "",
-      regionSelected: 1,
-      date: new Date(),
+      regionSelected: {},
+      date: "",
       calendarOption: {
         year: "numeric",
         month: "numeric",
@@ -152,22 +155,18 @@ export default {
   },
   methods: {
     getNationalData() {
-      const reqNationalLatest = axios.get("http://localhost/api/data/national/latest");
-      const reqProvLatest = axios.post("http://localhost/api/data/province");
-      axios
-        .all([reqNationalLatest, reqProvLatest])
-        .then(
-          axios.spread((...responses) => {
-            const resNationalLatest = responses[0].data;
-            const resProvLatest = responses[1].data;
-            this.listaProvince = resProvLatest;
+      axios.get("http://localhost/api/data/national/latest")
+        .then((res)=>{
+            const resNationalLatest = res.data;
+            console.log(resNationalLatest)
             this.totaleCasi = resNationalLatest.totale_positivi;
             this.ospedalizzati = resNationalLatest.totale_ospedalizzati;
             this.deceduti = resNationalLatest.deceduti;
             this.guariti = resNationalLatest.dimessi_guariti;
-            this.updateDate = resNationalLatest.data
-          })
-        )
+            this.updateDate = resNationalLatest.data;
+            this.date = this.updateDate;
+            this.onRegionSelected({});
+        })
         .catch((errors) => {
           console.log(errors);
         });
@@ -179,8 +178,10 @@ export default {
     },
     onRegionSelected(option){
         this.regionSelected = option;
+        this.listaProvince = [];
         axios.post("http://localhost/api/data/province", {
-          regionId: this.regionSelected.id
+          regionId: this.regionSelected.id,
+          date: this.date
         }).then(res =>{
             this.listaProvince = res.data;
         }).catch(error =>{

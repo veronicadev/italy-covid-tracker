@@ -16,6 +16,15 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api', apiRoutes);
 app.use('/',express.static(path.join(__dirname, 'dist')));
+
+app.use((err, req, res, next)=>{
+    console.log(err);
+    const message = err.message;
+    const statusCode = err.statusCode || 500;
+    res.status(statusCode).json({
+        message: message
+    })
+})
 app.listen(PORT, () => {
     console.log("SERVER STARTERD");
 });

@@ -31,7 +31,7 @@ export default {
             value: '',
             query: '',
             options: [...Regions],
-            //minDate: new Date(),
+            minDate: new Date(),
             maxDate: new Date()
         };
     },
@@ -50,8 +50,7 @@ export default {
             }
         },
         setMinMaxDate(){
-            const today = new Date();
-            this.maxDate = moment(today).add(1, "days").toDate();
+            this.maxDate = new Date();
             this.minDate = moment("2020-02-24").toDate();
         }
     },
