@@ -16,10 +16,10 @@ export const i18nTranslation =  {
         },
         "table":{
             "column":{
-                "denominazione_provincia": "Provincia",
-                "sigla_provincia": "Sigla",
-                "denominazione_regione": "Regione",
-                "totale_casi": "Totale casi"
+                "denominazione_provincia": "Province",
+                "sigla_provincia": "Acronym",
+                "denominazione_regione": "Region",
+                "totale_casi": "Total cases"
             }
         }
     },
