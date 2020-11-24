@@ -47,11 +47,10 @@ The dashboard is built with:
 
 ## Getting Started
 
-Follow there instructions for setting up the project locally.
+Follow the instructions for setting up the project locally.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
 * Node
 * npm
 ```sh
@@ -72,6 +71,8 @@ npm install
 ```.env
 DATASOURCE_HOST=https://raw.githubusercontent.com
 DATASOURCE_BASE_URL=/pcm-dpc/COVID-19/master
+VUE_APP_API_URL=http://localhost
+NODE_ENV=development
 ```
 5. Run the following command to start the server
 ```sh

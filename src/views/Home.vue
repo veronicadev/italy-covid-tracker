@@ -155,7 +155,7 @@ export default {
   },
   methods: {
     getNationalData() {
-      axios.get("http://localhost/api/data/national/latest")
+      axios.get(`${process.env.VUE_APP_API_URL}/api/data/national/latest`)
         .then((res)=>{
             const resNationalLatest = res.data;
             console.log(resNationalLatest)
@@ -179,7 +179,7 @@ export default {
     onRegionSelected(option){
         this.regionSelected = option;
         this.listaProvince = [];
-        axios.post("http://localhost/api/data/province", {
+        axios.post(`${process.env.VUE_APP_API_URL}/api/data/province`, {
           regionId: this.regionSelected.id,
           date: this.date
         }).then(res =>{
