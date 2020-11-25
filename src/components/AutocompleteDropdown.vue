@@ -75,7 +75,7 @@ export default {
             this.search = "";
             this.selectedObj = {};
             this.selected = null;
-            this.$emit("select-item", this.selectedObj);
+            this.$emit("clear-field", this.selectedObj);
         },
         setInputHeight() {
             if (!this.height) {

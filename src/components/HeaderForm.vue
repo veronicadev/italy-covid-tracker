@@ -1,6 +1,6 @@
 <template>
 <div class="autocomplete-search">
-    <autocomplete-dropdown :options="options" :height="55" @select-item="onOptionSelect">
+    <autocomplete-dropdown :options="options" :height="55" @clear-field="onClearField" @select-item="onOptionSelect">
 
         <template slot="item" slot-scope="option">
             <span>
@@ -43,7 +43,9 @@ export default {
             this.$emit("select-item", option);
             console.log(option);
         },
-
+        onClearField(option){
+            this.$emit("clear-field", option);
+        },
         imgPath: function (option) {
             if (option) {
                 return require(`../assets/img/regione/${option.id}.png`);

@@ -7,28 +7,26 @@
             <div class="col-lg-7">
               <h1 class="d-flex font-weight-normal mb-0">
                 <img class="mr-2" src="../assets/img/virus.png" />
-                <div>
-                    <span class="font-weight-bold">Italy</span> COVID-19 Tracker
-                </div>
+                <div><span class="font-weight-bold">Italy</span> COVID-19 Tracker</div>
               </h1>
-                <div class="updateDate">{{updateDate | formatDate}}</div>
+              <div class="updateDate">{{ updateDate | formatDate }}</div>
             </div>
             <div class="col-lg-5">
-              <header-form  @select-item="onRegionSelected"/>
+              <header-form @clear-field="onSearchClear" @select-item="onRegionSelected" />
             </div>
           </div>
         </div>
         <div class="col-lg-3">
-          <CardNumber :totalValue="totaleCasi" :icon="'mask'" :title="'card.totalCases'" />
+          <CardNumber :loading="loadingSummary" :totalValue="summary.totale_positivi" :icon="'mask'" :title="'card.totalCases'" />
         </div>
         <div class="col-lg-3">
-          <CardNumber :totalValue="ospedalizzati" :icon="'hospital'" :title="'card.hospitalized'" />
+          <CardNumber :loading="loadingSummary" :totalValue="summary.totale_ospedalizzati" :icon="'hospital'" :title="'card.hospitalized'" />
         </div>
         <div class="col-lg-3">
-          <CardNumber :totalValue="guariti" :icon="'recover'" :title="'card.recovered'" />
+          <CardNumber :loading="loadingSummary" :totalValue="summary.dimessi_guariti" :icon="'recover'" :title="'card.recovered'" />
         </div>
         <div class="col-lg-3">
-          <CardNumber :totalValue="deceduti" :icon="'lung'" :title="'card.deceased'" />
+          <CardNumber :loading="loadingSummary" :totalValue="summary.deceduti" :icon="'lung'" :title="'card.deceased'" />
         </div>
       </div>
       <div class="row mt-2">
@@ -42,10 +40,10 @@
               </div>
               <div class="row">
                 <div class="col-lg-12 mt-2">
-                <div v-if="listaProvince.length==0">
-                  <b-skeleton v-for="(e, i) in 10" height="38px" :key="i"></b-skeleton>
-                </div>
-                  <b-table-simple responsive class="provinceTable" v-if="listaProvince.length>0">
+                  <div v-if="listaProvince.length == 0">
+                    <b-skeleton v-for="(e, i) in 10" height="38px" :key="i"></b-skeleton>
+                  </div>
+                  <b-table-simple responsive class="provinceTable" v-if="listaProvince.length > 0">
                     <b-thead>
                       <b-tr>
                         <b-th v-for="f in fields" :key="f.key">{{ $t(`table.column.${f.key}`) }}</b-th>
@@ -53,10 +51,10 @@
                     </b-thead>
                     <b-tbody>
                       <b-tr v-for="item in filterProvince()" :key="item.codice_provincia">
-                        <b-td class="font-weight-bold font-sm">{{ item.denominazione_provincia | nullFilter}}</b-td>
-                        <b-td class="font-weight-light">{{ item.sigla_provincia | nullFilter}}</b-td>
-                        <b-td class="font-weight-light">{{ item.denominazione_regione | nullFilter}}</b-td>
-                        <b-td class="font-weight-light" style="width: 110px">{{ item.totale_casi | formatNumber | nullFilter}}</b-td>
+                        <b-td class="font-weight-bold font-sm">{{ item.denominazione_provincia | nullFilter }}</b-td>
+                        <b-td class="font-weight-light">{{ item.sigla_provincia | nullFilter }}</b-td>
+                        <b-td class="font-weight-light">{{ item.denominazione_regione | nullFilter }}</b-td>
+                        <b-td class="font-weight-light" style="width: 110px">{{ item.totale_casi | formatNumber | nullFilter }}</b-td>
                       </b-tr>
                     </b-tbody>
                   </b-table-simple>
@@ -112,17 +110,21 @@ export default {
     return {
       provinceSelected: "",
       regionSelected: {},
+      loadingSummary: false,
       date: "",
       calendarOption: {
         year: "numeric",
         month: "numeric",
         day: "numeric",
       },
+      summary: {
+        totale_positivi: 0,
+        totale_ospedalizzati: 0,
+        deceduti: 0,
+        dimessi_guariti: 0,
+        data: "",
+      },
       updateDate: "",
-      totaleCasi: 0,
-      ospedalizzati: 0,
-      deceduti: 0,
-      guariti: 0,
       sortBy: "province",
       sortDesc: false,
       fields: [
@@ -147,50 +149,70 @@ export default {
       listaRegioni: [],
     };
   },
-  filters: {
-    formatNumber: function (value) {
-      if (!value) return "";
-      return value.toLocaleString();
-    },
-  },
   methods: {
-    getNationalData() {
-      axios.get(`${process.env.VUE_APP_API_URL}/api/data/national/latest`)
-        .then((res)=>{
-            const resNationalLatest = res.data;
-            console.log(resNationalLatest)
-            this.totaleCasi = resNationalLatest.totale_positivi;
-            this.ospedalizzati = resNationalLatest.totale_ospedalizzati;
-            this.deceduti = resNationalLatest.deceduti;
-            this.guariti = resNationalLatest.dimessi_guariti;
-            this.updateDate = resNationalLatest.data;
-            this.date = this.updateDate;
-            this.onRegionSelected({});
+    getInitialData() {
+      this.loadingSummary = true;
+      axios
+        .get(`${process.env.VUE_APP_API_URL}/api/data/national/latest`)
+        .then((res) => {
+          const resNationalLatest = res.data;
+          console.log(resNationalLatest);
+          this.summary = resNationalLatest;
+          this.updateDate = resNationalLatest.data;
+          this.date = this.updateDate;
+          this.loadingSummary = false;
+          this.loadProvince();
         })
         .catch((errors) => {
           console.log(errors);
         });
     },
-    filterProvince(){
-        const search = this.provinceSelected.toLowerCase().trim();
-        if (!search) return this.listaProvince;
-        return this.listaProvince.filter(c => c.denominazione_provincia.toLowerCase().indexOf(search) > -1);
+    filterProvince() {
+      const search = this.provinceSelected.toLowerCase().trim();
+      if (!search) return this.listaProvince;
+      return this.listaProvince.filter((c) => c.denominazione_provincia.toLowerCase().indexOf(search) > -1);
     },
-    onRegionSelected(option){
-        this.regionSelected = option;
-        this.listaProvince = [];
-        axios.post(`${process.env.VUE_APP_API_URL}/api/data/province`, {
+    onRegionSelected(option) {
+      this.regionSelected = option;
+      this.loadProvince();
+      this.loadRegion();
+    },
+    onSearchClear(option) {
+      this.regionSelected = option; //empty
+      this.getInitialData();
+    },
+    loadProvince() {
+      this.listaProvince = [];
+      axios
+        .post(`${process.env.VUE_APP_API_URL}/api/data/province`, {
           regionId: this.regionSelected.id,
-          date: this.date
-        }).then(res =>{
-            this.listaProvince = res.data;
-        }).catch(error =>{
-            console.log(error)
+          date: this.date,
         })
-    }
+        .then((res) => {
+          this.listaProvince = res.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    loadRegion() {
+      this.loadingSummary = true;
+      axios
+        .post(`${process.env.VUE_APP_API_URL}/api/data/region`, {
+          regionId: this.regionSelected.id,
+          date: this.date,
+        })
+        .then((res) => {
+          this.loadingSummary = false;
+          this.summary = res.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
   mounted() {
-    this.getNationalData();
+    this.getInitialData();
   },
   components: {
     CardNumber,
@@ -206,8 +228,8 @@ export default {
   height: 400px;
   overflow-y: auto;
 }
-.updateDate{
-    font-size: 12px;
-    padding-left: 42px;
+.updateDate {
+  font-size: 12px;
+  padding-left: 42px;
 }
 </style>

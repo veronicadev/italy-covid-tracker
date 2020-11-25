@@ -23,7 +23,11 @@ exports.getLatestNationalData = async (req, res, next) => {
 
 exports.getProvinceData = async (req, res, next) => {
   let date = req.body.date;
-  const regionId = +req.body.regionId;
+  let regionId = +req.body.regionId;
+  /* TO FIX: dati dal repository non sono corretti */
+  if(regionId && (regionId==21 || regionId==22)) {
+    regionId=4;
+  }
   if(date){
     date = moment(date).format("YYYYMMDD");
   }else{
@@ -38,6 +42,36 @@ exports.getProvinceData = async (req, res, next) => {
       .subscribe((provincia)=>{
         if(!regionId || (regionId && +provincia.codice_regione === regionId)){
             result.push(provincia);
+          }
+      },
+      function(error){
+        console.log(error)
+      },
+      function(){
+        res.status(200).json(result);
+      })
+}
+
+exports.getRegionData = async (req, res, next) => {
+  let date = req.body.date;
+  const regionId = +req.body.regionId;
+  console.log("getRegionData")
+  console.log(regionId)
+  if(date){
+    date = moment(date).format("YYYYMMDD");
+  }else{
+    const error = new Error("Date is not valid");
+    error.statusCode = 400;
+    throw error;
+  }
+  const REGION = `${process.env.DATASOURCE_HOST}${process.env.DATASOURCE_BASE_URL}/dati-regioni/dpc-covid19-ita-regioni-${date}.csv`;
+  let result = {};
+  csv()
+    .fromStream(request.get(REGION))
+      .subscribe((region)=>{
+        if(!regionId || (regionId && +region.codice_regione === regionId)){
+          console.log(region)
+            result = region;
           }
       },
       function(error){

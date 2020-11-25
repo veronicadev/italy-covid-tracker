@@ -13,3 +13,8 @@ Vue.filter('formatDate', function(value, format) {
         return moment(String(value)).format(format);
     }
 });
+
+Vue.filter('formatNumber', function (value) {
+    if (!value) return "";
+    return Number(value).toLocaleString();
+  });
