@@ -12,21 +12,21 @@
               <div class="updateDate">{{ updateDate | formatDate }}</div>
             </div>
             <div class="col-lg-5">
-              <header-form @clear-field="onSearchClear" @select-item="onRegionSelected" />
+              <header-form :selectedDate="date" :maxDate="updateDate" @selected-date="onSelectedDate" @clear-field="onSearchClear" @select-item="onRegionSelected" />
             </div>
           </div>
         </div>
         <div class="col-lg-3">
-          <CardNumber :loading="loadingSummary" :totalValue="summary.totale_positivi" :icon="'mask'" :title="'card.totalCases'" />
+          <CardNumber :loading="loadingSummary" :totalValue="+summary.totale_positivi" :icon="'mask'" :title="'card.totalCases'" />
         </div>
         <div class="col-lg-3">
-          <CardNumber :loading="loadingSummary" :totalValue="summary.totale_ospedalizzati" :icon="'hospital'" :title="'card.hospitalized'" />
+          <CardNumber :loading="loadingSummary" :totalValue="+summary.totale_ospedalizzati" :icon="'hospital'" :title="'card.hospitalized'" />
         </div>
         <div class="col-lg-3">
-          <CardNumber :loading="loadingSummary" :totalValue="summary.dimessi_guariti" :icon="'recover'" :title="'card.recovered'" />
+          <CardNumber :loading="loadingSummary" :totalValue="+summary.dimessi_guariti" :icon="'recover'" :title="'card.recovered'" />
         </div>
         <div class="col-lg-3">
-          <CardNumber :loading="loadingSummary" :totalValue="summary.deceduti" :icon="'lung'" :title="'card.deceased'" />
+          <CardNumber :loading="loadingSummary" :totalValue="+summary.deceduti" :icon="'lung'" :title="'card.deceased'" />
         </div>
       </div>
       <div class="row mt-2">
@@ -150,16 +150,20 @@ export default {
     };
   },
   methods: {
-    getInitialData() {
+    getInitialData(firstLoad) {
       this.loadingSummary = true;
       axios
-        .get(`${process.env.VUE_APP_API_URL}/api/data/national/latest`)
+        .post(`${process.env.VUE_APP_API_URL}/api/data/national`, {
+          date: this.date,
+        })
         .then((res) => {
           const resNationalLatest = res.data;
           console.log(resNationalLatest);
           this.summary = resNationalLatest;
-          this.updateDate = resNationalLatest.data;
-          this.date = this.updateDate;
+          if (firstLoad) {
+            this.updateDate = resNationalLatest.data;
+            this.date = this.updateDate;
+          }
           this.loadingSummary = false;
           this.loadProvince();
         })
@@ -179,7 +183,16 @@ export default {
     },
     onSearchClear(option) {
       this.regionSelected = option; //empty
-      this.getInitialData();
+      this.getInitialData(false);
+    },
+    onSelectedDate(date) {
+      this.date = date;
+      if (this.regionSelected && this.regionSelected.id) {
+        this.loadRegion();
+      } else {
+        this.getInitialData(false);
+      }
+      this.loadProvince();
     },
     loadProvince() {
       this.listaProvince = [];
@@ -212,7 +225,7 @@ export default {
     },
   },
   mounted() {
-    this.getInitialData();
+    this.getInitialData(true);
   },
   components: {
     CardNumber,

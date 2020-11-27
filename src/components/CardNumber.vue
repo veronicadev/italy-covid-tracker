@@ -11,10 +11,10 @@
           </div>
         </div>
       </div>
-      <p class="mt-3 mb-0 text-sm">
+      <!--p class="mt-3 mb-0 text-sm">
         <span class="text-success mr-2">3.48%</span>
         <span class="text-nowrap font-weight-light">Since yesterday</span>
-      </p>
+      </!--p-->
     </div>
   </div>
 </template>

@@ -1,24 +1,24 @@
 
-const https = require('https');
-const moment = require('moment');
 const csv = require('csvtojson');
 const request=require('request');
 
 exports.getLatestNationalData = async (req, res, next) => {
-  const NAZIONALE_LATEST = process.env.DATASOURCE_BASE_URL+'/dati-json/dpc-covid19-ita-andamento-nazionale-latest.json';
-  console.log("getLatestNationalData");
-  callback = function(response) {
-    let str = "";
-    response.on('data', function (chunk) {
-      str += chunk;
-    });
-    
-    response.on('end', function () {
-      res.status(200).json(JSON.parse(str)[0]);
-    });
-  }
-      
-  let request = https.get(`${process.env.DATASOURCE_HOST}${NAZIONALE_LATEST}`, callback).end();
+  let date = req.body.date;
+  const NAZIONALE_LATEST =`${process.env.DATASOURCE_HOST}${process.env.DATASOURCE_BASE_URL}/dati-andamento-nazionale/dpc-covid19-ita-andamento-nazionale-${date}.csv`;
+  console.log(`** START: getLatestNationalData: ${date} **`);
+  let result = [];
+  csv()
+    .fromStream(request.get(NAZIONALE_LATEST))
+      .subscribe((data)=>{
+          result.push(data);
+      },
+      function(error){
+        console.log(error);
+      },
+      function(){
+        console.log(`** END: getLatestNationalData: ${date} **`);
+        res.status(200).json(result[0]);
+      });
 }
 
 exports.getProvinceData = async (req, res, next) => {
@@ -26,16 +26,10 @@ exports.getProvinceData = async (req, res, next) => {
   let regionId = +req.body.regionId;
   /* TO FIX: dati dal repository non sono corretti */
   if(regionId && (regionId==21 || regionId==22)) {
-    regionId=4;
-  }
-  if(date){
-    date = moment(date).format("YYYYMMDD");
-  }else{
-    const error = new Error("Date is not valid");
-    error.statusCode = 400;
-    throw error;
+    regionId = 4;
   }
   const PROVINCE = `${process.env.DATASOURCE_HOST}${process.env.DATASOURCE_BASE_URL}/dati-province/dpc-covid19-ita-province-${date}.csv`;
+  console.log(`** START: getProvinceData: ${date} - ${regionId} **`);
   let result = [];
   csv()
     .fromStream(request.get(PROVINCE))
@@ -48,29 +42,21 @@ exports.getProvinceData = async (req, res, next) => {
         console.log(error)
       },
       function(){
+        console.log(`** END: getProvinceData: ${date} - ${regionId} **`);
         res.status(200).json(result);
-      })
+      });
 }
 
 exports.getRegionData = async (req, res, next) => {
   let date = req.body.date;
   const regionId = +req.body.regionId;
-  console.log("getRegionData")
-  console.log(regionId)
-  if(date){
-    date = moment(date).format("YYYYMMDD");
-  }else{
-    const error = new Error("Date is not valid");
-    error.statusCode = 400;
-    throw error;
-  }
   const REGION = `${process.env.DATASOURCE_HOST}${process.env.DATASOURCE_BASE_URL}/dati-regioni/dpc-covid19-ita-regioni-${date}.csv`;
+  console.log(`** START: getRegionData: ${date} - ${regionId} **`);
   let result = {};
   csv()
     .fromStream(request.get(REGION))
       .subscribe((region)=>{
         if(!regionId || (regionId && +region.codice_regione === regionId)){
-          console.log(region)
             result = region;
           }
       },
@@ -78,6 +64,7 @@ exports.getRegionData = async (req, res, next) => {
         console.log(error)
       },
       function(){
+        console.log(`** END: getRegionData: ${date} - ${regionId} **`);
         res.status(200).json(result);
-      })
+      });
 }
