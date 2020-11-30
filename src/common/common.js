@@ -99,3 +99,22 @@ export const Regions = [
         "name": "Veneto",
     }
 ];
+
+export const TableColumns =  [
+    {
+      key: "denominazione_provincia",
+      sortable: false,
+    },
+    {
+      key: "sigla_provincia",
+      sortable: true,
+    },
+    {
+      key: "denominazione_regione",
+      sortable: true,
+    },
+    {
+      key: "totale_casi",
+      sortable: true,
+    },
+  ];

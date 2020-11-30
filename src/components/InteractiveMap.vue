@@ -1,44 +1,45 @@
 <template>
-<div class="container-map">
-    <mappa :nameLayerShown="mapSelect"></mappa>
+  <div class="container-map">
+    <mappa :regions="regions" :nameLayerShown="mapSelect"></mappa>
     <map-switch class="map-switch" @switchChange="onMapSwitchChanged($event)"></map-switch>
-</div>
+  </div>
 </template>
 
 <script>
-import MapSwitch from '@/components/MapSwitch.vue'
-import Mappa from '@/components/Mappa.vue'
+import MapSwitch from "@/components/MapSwitch.vue";
+import Mappa from "@/components/Mappa.vue";
 
 export default {
-    name: 'InteractiveMap',
-    props: {},
-    data: function () {
-        return {
-            mapSelect: 'totale_positivi'
-        }
+  name: "InteractiveMap",
+  props: {
+    regions: Array,
+  },
+  data: function () {
+    return {
+      mapSelect: "totale_positivi",
+    };
+  },
+  methods: {
+    onMapSwitchChanged(element) {
+      this.mapSelect = element;
     },
-    methods: {
-        onMapSwitchChanged(element) {
-            this.mapSelect = element;
-        },
-    },
-    components: {
-        MapSwitch,
-        Mappa
-    }
-
-}
+  },
+  components: {
+    MapSwitch,
+    Mappa,
+  },
+};
 </script>
 
 <style scoped>
 .container-map {
-    position: relative;
+  position: relative;
 }
 
 .map-switch {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 </style>

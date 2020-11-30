@@ -15,6 +15,8 @@ Vue.filter('formatDate', function(value, format) {
 });
 
 Vue.filter('formatNumber', function (value) {
-    if (!value) return "";
+    if (!value) {
+      value = 0;
+    }
     return Number(value).toLocaleString();
   });

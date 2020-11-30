@@ -129,3 +129,15 @@ table tbody td{
 ::-webkit-scrollbar-thumb:window-inactive {
 	background: rgba(146, 146, 146, 0.4); 
 }
+
+.popup-title{
+    color: #8898aa;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.mapboxgl-canvas{
+    outline: none;
+    border: none;
+}

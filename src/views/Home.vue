@@ -64,7 +64,7 @@
           </div>
         </div>
         <div class="col-lg-6">
-          <interactive-map></interactive-map>
+          <interactive-map :regions="regions"></interactive-map>
         </div>
       </div>
       <div class="row mt-4">
@@ -102,10 +102,16 @@ import HeaderForm from "@/components/HeaderForm.vue";
 import InteractiveMap from "@/components/InteractiveMap.vue";
 import RegionDonut from "@/components/RegionDonut.vue";
 import SpreadTrends from "@/components/SpreadTrends.vue";
+import { TableColumns } from "../common/common";
 const axios = require("axios");
 
 export default {
   name: "Home",
+  metaInfo() {
+    return {
+      title: this.$t("webappTitle"),
+    };
+  },
   data: function () {
     return {
       provinceSelected: "",
@@ -117,6 +123,7 @@ export default {
         month: "numeric",
         day: "numeric",
       },
+      regions: [],
       summary: {
         totale_positivi: 0,
         totale_ospedalizzati: 0,
@@ -127,24 +134,7 @@ export default {
       updateDate: "",
       sortBy: "province",
       sortDesc: false,
-      fields: [
-        {
-          key: "denominazione_provincia",
-          sortable: false,
-        },
-        {
-          key: "sigla_provincia",
-          sortable: true,
-        },
-        {
-          key: "denominazione_regione",
-          sortable: true,
-        },
-        {
-          key: "totale_casi",
-          sortable: true,
-        },
-      ],
+      fields: TableColumns,
       listaProvince: [],
       listaRegioni: [],
     };
@@ -165,7 +155,6 @@ export default {
             this.date = this.updateDate;
           }
           this.loadingSummary = false;
-          this.loadProvince();
         })
         .catch((errors) => {
           console.log(errors);
@@ -184,6 +173,7 @@ export default {
     onSearchClear(option) {
       this.regionSelected = option; //empty
       this.getInitialData(false);
+      this.loadProvince();
     },
     onSelectedDate(date) {
       this.date = date;
@@ -192,6 +182,7 @@ export default {
       } else {
         this.getInitialData(false);
       }
+      this.loadRegions();
       this.loadProvince();
     },
     loadProvince() {
@@ -223,9 +214,23 @@ export default {
           console.log(error);
         });
     },
+    loadRegions() {
+      axios
+        .post(`${process.env.VUE_APP_API_URL}/api/data/region/all`, {
+          date: this.date,
+        })
+        .then((res) => {
+          this.regions = res.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
   mounted() {
     this.getInitialData(true);
+    this.loadRegions();
+    this.loadProvince();
   },
   components: {
     CardNumber,

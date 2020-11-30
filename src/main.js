@@ -9,6 +9,8 @@ import './assets/scss/custom.scss'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import {i18nTranslation} from './common/i18n'
+import VueMeta from 'vue-meta'
+
 
 Vue.config.productionTip = false
 
@@ -19,6 +21,8 @@ Vue.use(IconsPlugin)
 
 // VueI18n
 Vue.use(VueI18n)
+//VueMeta
+Vue.use(VueMeta)
 export const i18n = new VueI18n({
   locale: 'en',
   fallbackLocale: 'en',

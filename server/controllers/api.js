@@ -68,3 +68,22 @@ exports.getRegionData = async (req, res, next) => {
         res.status(200).json(result);
       });
 }
+
+exports.getRegionsData = async (req, res, next) => {
+  let date = req.body.date;
+  const REGION = `${process.env.DATASOURCE_HOST}${process.env.DATASOURCE_BASE_URL}/dati-regioni/dpc-covid19-ita-regioni-${date}.csv`;
+  console.log(`** START: getRegionsData: ${date} **`);
+  let result = [];
+  csv()
+    .fromStream(request.get(REGION))
+      .subscribe((region)=>{
+          result.push(region);
+      },
+      function(error){
+        console.log(error)
+      },
+      function(){
+        console.log(`** END: getRegionsData: ${date} **`);
+        res.status(200).json(result);
+      });
+}

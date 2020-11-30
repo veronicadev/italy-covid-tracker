@@ -21,9 +21,16 @@ export const i18nTranslation =  {
                 "denominazione_regione": "Region",
                 "totale_casi": "Total cases"
             }
+        },
+        "map":{
+            "popup":{
+                "totale_positivi": "Totale cases",
+                "dimessi_guariti": "Recovered",
+                "deceduti": "Deceased"
+            }
         }
     },
     'it':{
-        'webappTitle': 'Italy COVID-19 Tracker - Dashboard to track the outbreak of COVID-19 in Italy'
+        'webappTitle': 'Italy COVID-19 Tracker - Dashboard interattiva per visualizzare l\'andamentoto del virus COVID-19 in Italia'
     }
 }
