@@ -107,6 +107,13 @@ table tbody td{
     visibility: hidden;
 }
 
+.cursor-pointer{
+    cursor:pointer;
+}
+
+.popover-body{
+    font-size: 12px;
+}
 /* Let's get this party started */
 ::-webkit-scrollbar {
     width: 10px;

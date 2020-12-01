@@ -1,6 +1,7 @@
 export const i18nTranslation =  {
     'en':{
         'webappTitle': 'Italy COVID-19 Tracker - Dashboard to track the outbreak of COVID-19 in Italy',
+        'updateDateInfo': 'Data made available by the Dipartimento della Protezione Civile and updated daily',
         'card':{
             'totalCases': 'Total',
             'hospitalized': 'Hospitalized',

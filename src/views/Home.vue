@@ -9,7 +9,10 @@
                 <img class="mr-2" src="../assets/img/virus.png" />
                 <div><span class="font-weight-bold">Italy</span> COVID-19 Tracker</div>
               </h1>
-              <div class="updateDate">{{ updateDate | formatDate }}</div>
+              <div class="updateDate">
+                {{ updateDate | formatDate }}
+                <b-icon icon="info-circle" v-b-popover.hover.top="$t('updateDateInfo')" class="cursor-pointer" variant="#8898aa"></b-icon>
+              </div>
             </div>
             <div class="col-lg-5">
               <header-form :selectedDate="date" :maxDate="updateDate" @selected-date="onSelectedDate" @clear-field="onSearchClear" @select-item="onRegionSelected" />
