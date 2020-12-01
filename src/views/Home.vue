@@ -71,23 +71,24 @@
         </div>
       </div>
       <div class="row mt-4">
-        <div class="col-lg-4">
-          <div class="card mb-4">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-lg-12">
-                  <region-donut></region-donut>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-8">
+        <div class="col-lg-7">
           <div class="card mb-4">
             <div class="card-body">
               <div class="row">
                 <div class="col-lg-12">
                   <spread-trends></spread-trends>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-12">
+                  <h2 class="mb-3">Top affected regions</h2>
+                  <region-list-item :totalePositiviNationale="totalePositiviNationale" v-for="region in regions.slice(0, 4)" :key="region.codice_regione" :region="region"></region-list-item>
                 </div>
               </div>
             </div>
@@ -103,8 +104,8 @@
 import CardNumber from "@/components/CardNumber.vue";
 import HeaderForm from "@/components/HeaderForm.vue";
 import InteractiveMap from "@/components/InteractiveMap.vue";
-import RegionDonut from "@/components/RegionDonut.vue";
 import SpreadTrends from "@/components/SpreadTrends.vue";
+import RegionListItem from "@/components/RegionListItem.vue";
 import { TableColumns } from "../common/common";
 const axios = require("axios");
 
@@ -119,6 +120,7 @@ export default {
     return {
       provinceSelected: "",
       regionSelected: {},
+      totalePositiviNationale: 0,
       loadingSummary: false,
       date: "",
       calendarOption: {
@@ -151,8 +153,8 @@ export default {
         })
         .then((res) => {
           const resNationalLatest = res.data;
-          console.log(resNationalLatest);
           this.summary = resNationalLatest;
+          this.totalePositiviNationale = +resNationalLatest.totale_positivi;
           if (firstLoad) {
             this.updateDate = resNationalLatest.data;
             this.date = this.updateDate;
@@ -239,8 +241,8 @@ export default {
     CardNumber,
     HeaderForm,
     InteractiveMap,
-    RegionDonut,
     SpreadTrends,
+    RegionListItem,
   },
 };
 </script>

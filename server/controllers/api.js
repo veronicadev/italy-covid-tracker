@@ -83,6 +83,13 @@ exports.getRegionsData = async (req, res, next) => {
         console.log(error)
       },
       function(){
+        let sortedArray = [];
+        if(result && result.length>0){
+          result.sort(function(a, b){
+            return b.totale_positivi - a.totale_positivi || b.deceduti - a.deceduti || b.dimessi_guariti - a.dimessi_guariti;
+          }) 
+        }
+        console.log(result)
         console.log(`** END: getRegionsData: ${date} **`);
         res.status(200).json(result);
       });
