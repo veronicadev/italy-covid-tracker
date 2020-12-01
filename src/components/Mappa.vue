@@ -13,7 +13,6 @@ export default {
   data() {
     return {
       regionsMap: {},
-      accessToken: process.env.VUE_APP_MAP_TOKEN,
       mapDefaultZoom: 4.35,
       map: null,
     };
@@ -21,7 +20,7 @@ export default {
   mounted() {
     let hoveredStateId = 0;
     let that = this;
-    mapboxgl.accessToken = this.accessToken;
+    mapboxgl.accessToken = process.env.VUE_APP_MAP_TOKEN;
     this.map = new mapboxgl.Map({
       container: "map",
       style: "mapbox://styles/veronicavia/ckh7xc1gz0uux19od7j5b3x9c",
