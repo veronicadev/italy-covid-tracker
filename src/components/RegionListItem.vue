@@ -1,7 +1,7 @@
 <template>
   <div class="region-container mt-2">
-    <div class="row align-items-center">
-      <div class="col-lg-2 pr-0">
+    <div class="row align-items-center justify-content-center">
+      <div class="col-lg-2 pr-0 col-4">
         <div class="donut-wrap">
           <div class="donut-percentage">
             <span>{{ percentuale }}</span>
@@ -14,15 +14,15 @@
       <div class="col-lg-10 pl-4">
         <h5 class="mb-2">{{ region.denominazione_regione }}</h5>
         <div class="row">
-          <div class="col-lg-4">
+          <div class="col-lg-4 col-4">
             <div class="subtitle text-uppercase text-muted mb-0">Total cases</div>
             <span class="region-number">{{ region.totale_positivi | formatNumber }}</span>
           </div>
-          <div class="col-lg-4">
+          <div class="col-lg-4 col-4">
             <div class="subtitle text-uppercase text-muted mb-0">Recovered</div>
             <span class="region-number">{{ region.dimessi_guariti | formatNumber }}</span>
           </div>
-          <div class="col-lg-4">
+          <div class="col-lg-4 col-4">
             <div class="subtitle text-uppercase text-muted mb-0">Deceaded</div>
             <span class="region-number">{{ region.deceduti | formatNumber }}</span>
           </div>
