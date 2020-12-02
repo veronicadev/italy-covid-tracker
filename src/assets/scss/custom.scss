@@ -148,3 +148,23 @@ table tbody td{
     outline: none;
     border: none;
 }
+
+
+.legend-list {
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+  }
+  .legend-item {
+    font-size: 14px;
+    padding: 0 10px;
+  }
+  .legend-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 3px;
+    border-radius: 50%;
+  }
+  

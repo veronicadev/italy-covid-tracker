@@ -71,10 +71,10 @@
         </div>
       </div>
       <div class="row mt-4">
-        <div class="col-lg-7">
-          <div class="card mb-4">
+        <div class="col-lg-7 mb-4">
+          <div class="card d-flex h-100">
             <div class="card-body">
-              <div class="row">
+              <div class="row h-100">
                 <div class="col-lg-12">
                   <spread-trends></spread-trends>
                 </div>
@@ -82,8 +82,8 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-5">
-          <div class="card mb-4">
+        <div class="col-lg-5 mb-4">
+          <div class="card">
             <div class="card-body">
               <div class="row">
                 <div class="col-lg-12">

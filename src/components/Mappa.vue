@@ -160,7 +160,6 @@ export default {
   watch: {
     nameLayerShown: function (newLayer, oldLayer) {
       // watch it
-      console.log(newLayer, oldLayer);
       this.map.setLayoutProperty(newLayer, "visibility", "visible");
       if (oldLayer) {
         this.map.setLayoutProperty(oldLayer, "visibility", "none");
@@ -168,8 +167,7 @@ export default {
         this.map.setLayoutProperty(this.nameLayerShown, "visibility", "none");
       }
     },
-    regions: function (regionsNew, regionsOld) {
-      console.log(regionsNew, regionsOld);
+    regions: function () {
       this.regions.forEach((el) => {
         this.regionsMap[+el.codice_regione] = el;
       });
@@ -178,7 +176,6 @@ export default {
         regObj.features[index].properties.totale_positivi = +this.regionsMap[el.id].totale_positivi;
         regObj.features[index].properties.dimessi_guariti = +this.regionsMap[el.id].dimessi_guariti;
         regObj.features[index].properties.deceduti = +this.regionsMap[el.id].deceduti;
-        console.log(regObj.features[index]);
       });
       this.map.getSource("states").setData(regObj);
     },

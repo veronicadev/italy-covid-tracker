@@ -43,8 +43,8 @@ export default {
   },
   data() {
     return {
-      donutData: Array,
-      percentuale: Number,
+      donutData: [],
+      percentuale: 0,
     };
   },
   computed: {
