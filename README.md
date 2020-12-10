@@ -24,6 +24,7 @@
 * [Getting Started](#getting-started)
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
+* [Features](#features)
 * [Roadmap](#roadmap)
 * [Contributing](#contributing)
 * [Contact](#contact)
@@ -33,7 +34,7 @@
 
 ![Italy covid-19 tracker](public/dashboard_screenshot.png)
 
-The purpose of this project is to show, in a intuituve and interactive way, data of the outbreak of COVID-19 in Italy. The dashboard fetches data from the official <a target="_blank" href="https://github.com/pcm-dpc/COVID-19">github repository</a> of Dipartimento della Protezione Civile, and shows it in different ways like tables, charts and map.
+The purpose of this project is to show, in a intuituve and interactive way, data of COVID-19 outbreak in Italy. The dashboard fetches data from the official <a target="_blank" href="https://github.com/pcm-dpc/COVID-19">github repository</a> of Dipartimento della Protezione Civile, and shows it in different ways like tables, charts and map.
 
 
 ### Built With
@@ -42,6 +43,7 @@ The dashboard is built with:
 * Node.js
 * Express
 * Bootstrap Vue
+* MapBox
 
 
 
@@ -73,6 +75,7 @@ DATASOURCE_HOST=https://raw.githubusercontent.com
 DATASOURCE_BASE_URL=/pcm-dpc/COVID-19/master
 VUE_APP_API_URL=http://localhost
 NODE_ENV=development
+VUE_APP_MAP_TOKEN=<YOUR MAPBOX KEY>
 ```
 5. Run the following command to start the server
 ```sh
@@ -82,6 +85,19 @@ npm run start
 ```sh
 npm run serve
 ```
+
+## Features
+
+### Search & Calendar
+
+### Province list
+
+### Interactive map
+
+### Interactive national trend chart
+
+### Top affected regions
+
 ## Roadmap
 
 See the [open issues](https://github.com/veronicadev/italy-covid-tracker/issues) for a list of proposed features (and known issues).
