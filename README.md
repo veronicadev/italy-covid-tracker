@@ -32,7 +32,8 @@
  
 ## About The Project
 
-![Italy covid-19 tracker](public/dashboard_screenshot.png)
+![Italy covid-19 tracker](public/dashboard_screenshot.png) 
+![Italy covid-19 tracker](public/dashboard_screenshot_2.png)
 
 The purpose of this project is to show, in a intuituve and interactive way, data of COVID-19 outbreak in Italy. The dashboard fetches data from the official <a target="_blank" href="https://github.com/pcm-dpc/COVID-19">github repository</a> of Dipartimento della Protezione Civile, and shows it in different ways like tables, charts and map.
 
