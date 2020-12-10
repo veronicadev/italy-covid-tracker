@@ -47,7 +47,17 @@ export default {
         },
         paint: {
           "fill-opacity": 0.8,
-          "fill-color": ["interpolate", ["linear"], ["get", "dimessi_guariti"], 0, ["to-color", "#91c385"], 4500, ["to-color", "#5a9e4a"], 70000, ["to-color", "#006d2c"]],
+          "fill-color": [
+            "interpolate",
+            ["linear"],
+            ["get", "dimessi_guariti"],
+            0,
+            ["to-color", "#91c385"],
+            4500,
+            ["to-color", "#5a9e4a"],
+            70000,
+            ["to-color", "#006d2c"],
+          ],
         },
       });
 
@@ -60,7 +70,17 @@ export default {
         },
         paint: {
           "fill-opacity": 1,
-          "fill-color": ["interpolate", ["linear"], ["get", "deceduti"], 0, ["to-color", "#c38a8a"], 4500, ["to-color", "#a53535"], 70000, ["to-color", "#800303"]],
+          "fill-color": [
+            "interpolate",
+            ["linear"],
+            ["get", "deceduti"],
+            0,
+            ["to-color", "#c38a8a"],
+            4500,
+            ["to-color", "#a53535"],
+            70000,
+            ["to-color", "#800303"],
+          ],
         },
       });
 
@@ -73,7 +93,19 @@ export default {
         },
         paint: {
           "fill-opacity": 1,
-          "fill-color": ["interpolate", ["linear"], ["get", "totale_positivi"], 0, ["to-color", "#e2cb00"], 5000, ["to-color", "#eca10b"], 10000, ["to-color", "#dc5109"], 80000, ["to-color", "#9a0606"]],
+          "fill-color": [
+            "interpolate",
+            ["linear"],
+            ["get", "totale_positivi"],
+            0,
+            ["to-color", "#e2cb00"],
+            5000,
+            ["to-color", "#eca10b"],
+            10000,
+            ["to-color", "#dc5109"],
+            80000,
+            ["to-color", "#9a0606"],
+          ],
         },
       });
 
@@ -84,7 +116,12 @@ export default {
         layout: {},
         paint: {
           "fill-color": "#fff",
-          "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 0.4, 0],
+          "fill-opacity": [
+            "case",
+            ["boolean", ["feature-state", "hover"], false],
+            0.4,
+            0,
+          ],
         },
       });
 
@@ -173,11 +210,15 @@ export default {
       });
       let regObj = require("../assets/geomap/italy-regions.json");
       regObj.features.forEach((el, index) => {
-        regObj.features[index].properties.totale_positivi = +this.regionsMap[el.id].totale_positivi;
-        regObj.features[index].properties.dimessi_guariti = +this.regionsMap[el.id].dimessi_guariti;
+        regObj.features[index].properties.totale_positivi = +this.regionsMap[el.id]
+          .totale_positivi;
+        regObj.features[index].properties.dimessi_guariti = +this.regionsMap[el.id]
+          .dimessi_guariti;
         regObj.features[index].properties.deceduti = +this.regionsMap[el.id].deceduti;
       });
-      this.map.getSource("states").setData(regObj);
+      if (this.map && this.map.getSource("states")) {
+        this.map.getSource("states").setData(regObj);
+      }
     },
   },
 };

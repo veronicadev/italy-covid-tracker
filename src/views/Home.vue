@@ -11,25 +11,56 @@
               </h1>
               <div class="updateDate">
                 {{ updateDate | formatDate }}
-                <b-icon icon="info-circle" v-b-popover.hover.top="$t('updateDateInfo')" class="cursor-pointer" variant="#8898aa"></b-icon>
+                <b-icon
+                  icon="info-circle"
+                  v-b-popover.hover.top="$t('updateDateInfo')"
+                  class="cursor-pointer"
+                  variant="#8898aa"
+                ></b-icon>
               </div>
             </div>
             <div class="col-lg-5">
-              <header-form :selectedDate="date" :maxDate="updateDate" @selected-date="onSelectedDate" @clear-field="onSearchClear" @select-item="onRegionSelected" />
+              <header-form
+                :selectedDate="date"
+                :maxDate="updateDate"
+                @selected-date="onSelectedDate"
+                @clear-field="onSearchClear"
+                @select-item="onRegionSelected"
+              />
             </div>
           </div>
         </div>
         <div class="col-lg-3">
-          <CardNumber :loading="loadingSummary" :totalValue="+summary.totale_positivi" :icon="'mask'" :title="'card.totalCases'" />
+          <CardNumber
+            :loading="loadingSummary"
+            :totalValue="+summary.totale_positivi"
+            :icon="'mask'"
+            :title="'card.totalCases'"
+          />
         </div>
         <div class="col-lg-3">
-          <CardNumber :loading="loadingSummary" :totalValue="+summary.totale_ospedalizzati" :icon="'hospital'" :title="'card.hospitalized'" />
+          <CardNumber
+            :loading="loadingSummary"
+            :totalValue="+summary.totale_ospedalizzati"
+            :icon="'hospital'"
+            :title="'card.hospitalized'"
+          />
         </div>
         <div class="col-lg-3">
-          <CardNumber :loading="loadingSummary" :totalValue="+summary.dimessi_guariti" :icon="'recover'" :title="'card.recovered'" />
+          <CardNumber
+            :loading="loadingSummary"
+            :totalValue="+summary.dimessi_guariti"
+            :icon="'recover'"
+            :title="'card.recovered'"
+          />
         </div>
         <div class="col-lg-3">
-          <CardNumber :loading="loadingSummary" :totalValue="+summary.deceduti" :icon="'lung'" :title="'card.deceased'" />
+          <CardNumber
+            :loading="loadingSummary"
+            :totalValue="+summary.deceduti"
+            :icon="'lung'"
+            :title="'card.deceased'"
+          />
         </div>
       </div>
       <div class="row mt-2">
@@ -38,7 +69,10 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-lg-5 mb-3">
-                  <b-form-input v-model="provinceSelected" placeholder="Province/City"></b-form-input>
+                  <b-form-input
+                    v-model="provinceSelected"
+                    placeholder="Province/City"
+                  ></b-form-input>
                 </div>
               </div>
               <div class="row">
@@ -46,18 +80,32 @@
                   <div v-if="listaProvince.length == 0">
                     <b-skeleton v-for="(e, i) in 10" height="38px" :key="i"></b-skeleton>
                   </div>
-                  <b-table-simple responsive class="provinceTable" v-if="listaProvince.length > 0">
+                  <b-table-simple
+                    responsive
+                    class="provinceTable"
+                    v-if="listaProvince.length > 0"
+                  >
                     <b-thead>
                       <b-tr>
-                        <b-th v-for="f in fields" :key="f.key">{{ $t(`table.column.${f.key}`) }}</b-th>
+                        <b-th v-for="f in fields" :key="f.key">{{
+                          $t(`table.column.${f.key}`)
+                        }}</b-th>
                       </b-tr>
                     </b-thead>
                     <b-tbody>
                       <b-tr v-for="item in filterProvince()" :key="item.codice_provincia">
-                        <b-td class="font-weight-bold font-sm">{{ item.denominazione_provincia | nullFilter }}</b-td>
-                        <b-td class="font-weight-light">{{ item.sigla_provincia | nullFilter }}</b-td>
-                        <b-td class="font-weight-light">{{ item.denominazione_regione | nullFilter }}</b-td>
-                        <b-td class="font-weight-light" style="width: 110px">{{ item.totale_casi | formatNumber | nullFilter }}</b-td>
+                        <b-td class="font-weight-bold font-sm">{{
+                          item.denominazione_provincia | nullFilter
+                        }}</b-td>
+                        <b-td class="font-weight-light">{{
+                          item.sigla_provincia | nullFilter
+                        }}</b-td>
+                        <b-td class="font-weight-light">{{
+                          item.denominazione_regione | nullFilter
+                        }}</b-td>
+                        <b-td class="font-weight-light" style="width: 110px">{{
+                          item.totale_casi | formatNumber | nullFilter
+                        }}</b-td>
                       </b-tr>
                     </b-tbody>
                   </b-table-simple>
@@ -76,7 +124,11 @@
             <div class="card-body">
               <div class="row h-100">
                 <div class="col-lg-12">
-                  <spread-trends></spread-trends>
+                  <spread-trends
+                    @time-span-changed="onTimeSpanChanged"
+                    :timeSpan="timeSpan"
+                    :data="trendData"
+                  ></spread-trends>
                 </div>
               </div>
             </div>
@@ -88,7 +140,12 @@
               <div class="row">
                 <div class="col-lg-12">
                   <h2 class="mb-3">Top affected regions</h2>
-                  <region-list-item :totalePositiviNationale="totalePositiviNationale" v-for="region in regions.slice(0, 4)" :key="region.codice_regione" :region="region"></region-list-item>
+                  <region-list-item
+                    :totalePositiviNationale="totalePositiviNationale"
+                    v-for="region in regions.slice(0, 4)"
+                    :key="region.codice_regione"
+                    :region="region"
+                  ></region-list-item>
                 </div>
               </div>
             </div>
@@ -106,7 +163,7 @@ import HeaderForm from "@/components/HeaderForm.vue";
 import InteractiveMap from "@/components/InteractiveMap.vue";
 import SpreadTrends from "@/components/SpreadTrends.vue";
 import RegionListItem from "@/components/RegionListItem.vue";
-import { TableColumns } from "../common/common";
+import { TableColumns, ChartTimeSpan } from "../common/common";
 const axios = require("axios");
 
 export default {
@@ -129,6 +186,14 @@ export default {
         day: "numeric",
       },
       regions: [],
+      trendData: {
+        totalePositivi: [],
+        ospedalizzati: [],
+        dimessiGuariti: [],
+        deceduti: [],
+        date: [],
+      },
+      timeSpan: ChartTimeSpan[0],
       summary: {
         totale_positivi: 0,
         totale_ospedalizzati: 0,
@@ -158,6 +223,7 @@ export default {
           if (firstLoad) {
             this.updateDate = resNationalLatest.data;
             this.date = this.updateDate;
+            this.loadTrendNational();
           }
           this.loadingSummary = false;
         })
@@ -168,7 +234,9 @@ export default {
     filterProvince() {
       const search = this.provinceSelected.toLowerCase().trim();
       if (!search) return this.listaProvince;
-      return this.listaProvince.filter((c) => c.denominazione_provincia.toLowerCase().indexOf(search) > -1);
+      return this.listaProvince.filter(
+        (c) => c.denominazione_provincia.toLowerCase().indexOf(search) > -1
+      );
     },
     onRegionSelected(option) {
       this.regionSelected = option;
@@ -230,6 +298,24 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    },
+    loadTrendNational() {
+      axios
+        .post(`${process.env.VUE_APP_API_URL}/api/data/trend/national`, {
+          timeSpan: this.timeSpan.days,
+          lastUpdateDate: this.updateDate,
+        })
+        .then((res) => {
+          this.trendData = res.data;
+          console.log(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    onTimeSpanChanged(timeSpan) {
+      this.timeSpan = timeSpan;
+      this.loadTrendNational();
     },
   },
   mounted() {

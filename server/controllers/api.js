@@ -1,6 +1,7 @@
 
 const csv = require('csvtojson');
 const request=require('request');
+const moment = require('moment');
 
 exports.getLatestNationalData = async (req, res, next) => {
   let date = req.body.date;
@@ -89,8 +90,41 @@ exports.getRegionsData = async (req, res, next) => {
             return b.totale_positivi - a.totale_positivi || b.deceduti - a.deceduti || b.dimessi_guariti - a.dimessi_guariti;
           }) 
         }
-        console.log(result)
         console.log(`** END: getRegionsData: ${date} **`);
+        res.status(200).json(result);
+      });
+}
+
+exports.getTrendNationalData = async (req, res, next) => {
+  const timeSpan = +req.body.timeSpan;
+  const lastUpdateDate = moment(req.body.lastUpdateDate);
+  const leastUpdateDate = moment(lastUpdateDate).subtract(timeSpan, 'days');
+  const REGION = `${process.env.DATASOURCE_HOST}${process.env.DATASOURCE_BASE_URL}/dati-andamento-nazionale/dpc-covid19-ita-andamento-nazionale.csv`;
+  console.log(`** START: getTrendNationalData: ${timeSpan} ${lastUpdateDate}**`);
+  let result = {
+    totalePositivi: [],
+    ospedalizzati:[],
+    dimessiGuariti: [],
+    deceduti: [],
+    date:[]
+  };
+  csv()
+    .fromStream(request.get(REGION))
+      .subscribe((data)=>{
+        const dataMoment = moment(data.data);
+        if(dataMoment.diff(leastUpdateDate, 'days')>=0 && lastUpdateDate.diff(dataMoment, 'days')>=0){
+          result.totalePositivi.push(data.totale_positivi);
+          result.ospedalizzati.push(data.totale_ospedalizzati);
+          result.dimessiGuariti.push(data.dimessi_guariti);
+          result.deceduti.push(data.deceduti);
+          result.date.push(data.data);
+        }
+      },
+      function(error){
+        console.log(error)
+      },
+      function(){
+        console.log(`** END: getTrendNationalData: ${timeSpan} ${lastUpdateDate}**`);
         res.status(200).json(result);
       });
 }

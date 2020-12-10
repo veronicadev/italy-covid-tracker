@@ -1,15 +1,18 @@
 export const ChartTimeSpan = [
     {
         id: 'lastWeek',
-        label: 'chart.timespan.lastWeek'
+        label: 'chart.timespan.lastWeek',
+        days: 7
     },
     {
         id: 'lastMonth',
-        label: 'chart.timespan.lastMonth'
+        label: 'chart.timespan.lastMonth',
+        days: 30
     },
     {
         id: 'lastYear',
-        label: 'chart.timespan.lastYear'
+        label: 'chart.timespan.lastYear',
+        days: 365
     }
 ];
 

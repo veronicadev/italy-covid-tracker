@@ -3,15 +3,15 @@ export const i18nTranslation =  {
         'webappTitle': 'Italy COVID-19 Tracker - Dashboard to track the outbreak of COVID-19 in Italy',
         'updateDateInfo': 'Data made available by the Dipartimento della Protezione Civile and updated daily',
         'card':{
-            'totalCases': 'Total',
+            'totalCases': 'Total positive',
             'hospitalized': 'Hospitalized',
             'recovered': 'Recovered',
             'deceased': 'Deceased'
         },
         'chart':{
             'timespan':{
-                'lastWeek': 'Last week',
-                'lastMonth': 'Last month',
+                'lastWeek': 'Last 7 days',
+                'lastMonth': 'Last 30 days',
                 'lastYear': 'Last year',
             }
         },

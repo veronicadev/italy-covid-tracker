@@ -15,7 +15,7 @@
         <h5 class="mb-2">{{ region.denominazione_regione }}</h5>
         <div class="row">
           <div class="col-lg-4 col-4">
-            <div class="subtitle text-uppercase text-muted mb-0">Total cases</div>
+            <div class="subtitle text-uppercase text-muted mb-0">Total positive</div>
             <span class="region-number">{{ region.totale_positivi | formatNumber }}</span>
           </div>
           <div class="col-lg-4 col-4">
@@ -58,9 +58,14 @@ export default {
   methods: {
     percentualeTotalePositivi() {
       if (this.region && this.totalePositiviNationale) {
-        this.percentuale = Math.round((this.region.totale_positivi / this.totalePositiviNationale) * 100) || 0;
+        this.percentuale =
+          Math.round(
+            (this.region.totale_positivi / this.totalePositiviNationale) * 100
+          ) || 0;
         this.donutData = [];
-        this.donutData.push(Number(this.totalePositiviNationale) - Number(this.region.totale_positivi));
+        this.donutData.push(
+          Number(this.totalePositiviNationale) - Number(this.region.totale_positivi)
+        );
         this.donutData.push(Number(this.region.totale_positivi));
       }
     },
