@@ -8,7 +8,7 @@
     <a href="https://github.com/veronicadev/italy-covid-tracker"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://test-covid-tracker.herokuapp.com/" target="_blank>View Demo</a>
+    <a href="https://test-covid-tracker.herokuapp.com/" target="_blank">View Demo</a>
     ·
     <a href="https://github.com/veronicadev/italy-covid-tracker/issues">Report Bug</a>
     ·
